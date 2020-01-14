@@ -16,8 +16,9 @@ namespace PerlinNoise
          *  float scale: How grainy the noise is (larger = smoother)
          *  float persistence: How much amplitude changes between octaves (smaller = smoother, recommended range: ]0f, 1f], default value = 0.5f)
          *  float lacunarity: How much frequency changes between octaves (smaller = smoother, recommended range: [1f, 16f], default value = 2f)
+         *  Vector2 offset: manual offset (default value = (0, 0))
          */
-        public static float[,] GenerateHeightmap(int width, int height, int seed, int octaves, float scale, float persistence, float lacunarity)
+        public static float[,] GenerateHeightmap(int width, int height, int seed, int octaves, float scale, float persistence, float lacunarity, Vector2 offset)
         {
             if(octaves <= 0)
             {
@@ -41,8 +42,8 @@ namespace PerlinNoise
             for(int i = 0; i < octaves; i++)
             {
                 //Offset the coordinates by a random value
-                float offsetX = prng.Next(-100000, 100000);
-                float offsetY = prng.Next(-100000, 100000);
+                float offsetX = prng.Next(-100000, 100000) + offset.x;
+                float offsetY = prng.Next(-100000, 100000) + offset.y;
                 octaveOffsets[i] = new Vector2(offsetX, offsetY);
             }
 
