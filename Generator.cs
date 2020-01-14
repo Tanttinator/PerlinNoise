@@ -51,6 +51,10 @@ namespace PerlinNoise
             float halfWidth = width / 2f;
             float halfHeight = height / 2f;
 
+            //Keep track of the lowest and highest values
+            float minHeight = float.MaxValue;
+            float maxHeight = float.MinValue;
+
             //Loop through our heightmap and generate noise values for each element
             for (int x = 0; x < width; x++)
             {
@@ -82,6 +86,20 @@ namespace PerlinNoise
                     }
 
                     heightmap[x, y] = heightValue;
+
+                    if (heightValue < minHeight)
+                        minHeight = heightValue;
+                    if (heightValue > maxHeight)
+                        maxHeight = heightValue;
+                }
+            }
+
+            //Normalize values between 0 and 1
+            for(int x = 0; x < width; x++)
+            {
+                for(int y = 0; y < height; y++)
+                {
+                    heightmap[x, y] = (heightmap[x, y] - minHeight) / (maxHeight - minHeight);
                 }
             }
 
