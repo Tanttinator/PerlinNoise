@@ -38,6 +38,10 @@ namespace PerlinNoise
                 octaveOffsets[i] = new Vector2(offsetX, offsetY);
             }
 
+            //Zoom to the center when changing width and height
+            float halfWidth = width / 2f;
+            float halfHeight = height / 2f;
+
             //Loop through our heightmap and generate noise values for each element
             for (int x = 0; x < width; x++)
             {
@@ -54,8 +58,8 @@ namespace PerlinNoise
                     for(int i = 0; i < octaves; i++)
                     {
                         //Sample coordinates
-                        float sampleX = (x + octaveOffsets[i].x) / 100f * frequency;
-                        float sampleY = (y + octaveOffsets[i].y) / 100f * frequency;
+                        float sampleX = (x + halfWidth + octaveOffsets[i].x) / 100f * frequency;
+                        float sampleY = (y + halfHeight + octaveOffsets[i].y) / 100f * frequency;
 
                         //Get noise sample and fit it between -1 and 1
                         float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
