@@ -13,14 +13,22 @@ namespace PerlinNoise
          *  int height: Y size of the array
          *  int seed: Seed for RNG
          *  int octaves: How many layers of noise are generated
+         *  float scale: How grainy the noise is (larger = smoother)
+         *  float persistence: How much amplitude changes between octaves (smaller = smoother, recommended range: ]0f, 1f], default value = 0.5f)
+         *  float lacunarity: How much frequency changes between octaves (smaller = smoother, recommended range: [1f, 16f], default value = 2f)
          */
-        public static float[,] GenerateHeightmap(int width, int height, int seed, int octaves)
+        public static float[,] GenerateHeightmap(int width, int height, int seed, int octaves, float scale, float persistence, float lacunarity)
         {
             if(octaves <= 0)
             {
                 Debug.LogError("PerlinNoise.Generator.GenerateHeightmap: Must have more than 0 octaves!");
                 return null;
             }
+
+            //Make sure scale is greater than 0
+            if (scale <= 0)
+                scale = 0.00001f;
+
             //Initialize the heightmap
             float[,] heightmap = new float[width, height];
 
@@ -58,8 +66,8 @@ namespace PerlinNoise
                     for(int i = 0; i < octaves; i++)
                     {
                         //Sample coordinates
-                        float sampleX = (x + halfWidth + octaveOffsets[i].x) / 100f * frequency;
-                        float sampleY = (y + halfHeight + octaveOffsets[i].y) / 100f * frequency;
+                        float sampleX = (x + halfWidth + octaveOffsets[i].x) / scale * frequency;
+                        float sampleY = (y + halfHeight + octaveOffsets[i].y) / scale * frequency;
 
                         //Get noise sample and fit it between -1 and 1
                         float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
@@ -68,8 +76,8 @@ namespace PerlinNoise
                         heightValue += perlinValue * amplitude;
 
                         //Change our amplitude and frequency
-                        amplitude *= 2f;
-                        frequency *= 0.5f;
+                        amplitude *= persistence;
+                        frequency *= lacunarity;
                     }
 
                     heightmap[x, y] = heightValue;
