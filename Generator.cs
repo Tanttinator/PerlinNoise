@@ -22,16 +22,11 @@ namespace PerlinNoise
             {
                 for(int y = 0; y < height; y++)
                 {
-                    heightmap[x, y] = Sample(x, y);
+                    heightmap[x, y] = Mathf.PerlinNoise((float)x / 100f, (float)y / 100f);
                 }
             }
 
             return heightmap;
-        }
-
-        public static float Sample(int x, int y)
-        {
-            return Mathf.PerlinNoise(x / 100f, y / 100f);
         }
     }
 }
