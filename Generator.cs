@@ -16,7 +16,7 @@ namespace PerlinNoise
          *  float scale: How grainy the noise is (larger = smoother)
          *  float persistence: How much amplitude changes between octaves (smaller = smoother, recommended range: ]0f, 1f], default value = 0.5f)
          *  float lacunarity: How much frequency changes between octaves (smaller = smoother, recommended range: [1f, 16f], default value = 2f)
-         *  Vector2 offset: manual offset (default value = (0, 0))
+         *  Vector2 offset: Manual offset (default value = (0, 0))
          */
         public static float[,] GenerateHeightmap(int width, int height, int seed, int octaves, float scale, float persistence, float lacunarity, Vector2 offset)
         {
@@ -86,6 +86,19 @@ namespace PerlinNoise
             }
 
             return heightmap;
+        }
+
+        /**Generates a 2D array of noise values vith given settings object
+         * args:
+         *  int width: X size of the array
+         *  int height: Y size of the array
+         *  int seed: Seed for RNG
+         *  Settings settings: The noise settings
+         *  Vector2 offset: Manual offset
+         */
+        public static float[,] GenerateHeightmap(int width, int height, int seed, Settings settings, Vector2 offset)
+        {
+            return GenerateHeightmap(width, height, seed, settings.octaves, settings.scale, settings.persistence, settings.lacunarity, offset);
         }
     }
 }
