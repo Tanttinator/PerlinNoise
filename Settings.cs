@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace PerlinNoise
 {
-    //Object to store settings for perlin noise
+    /// <summary>
+    /// Object to store settings for Perlin noise.
+    /// </summary>
     [CreateAssetMenu(menuName = "Perlin Noise/Settings")]
     public class Settings : ScriptableObject
     {

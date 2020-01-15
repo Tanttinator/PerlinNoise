@@ -4,20 +4,23 @@ using UnityEngine;
 
 namespace PerlinNoise
 {
-    //Base class for perlin noise generation
+    /// <summary>
+    /// Helper class for Perlin noise generation.
+    /// </summary>
     public class Generator
     {
-        /**Generates a 2D array of noise values
-         * args:
-         *  int width: X size of the array
-         *  int height: Y size of the array
-         *  int seed: Seed for RNG
-         *  int octaves: How many layers of noise are generated
-         *  float scale: How grainy the noise is (larger = smoother)
-         *  float persistence: How much amplitude changes between octaves (smaller = smoother, recommended range: ]0f, 1f], default value = 0.5f)
-         *  float lacunarity: How much frequency changes between octaves (smaller = smoother, recommended range: [1f, 16f], default value = 2f)
-         *  Vector2 offset: Manual offset (default value = (0, 0))
-         */
+        /// <summary>
+        /// Generate a 2D array of Perlin noise values.
+        /// </summary>
+        /// <param name="width">X-size of the array.</param>
+        /// <param name="height">Y-size of the array.</param>
+        /// <param name="seed">Seed for RNG.</param>
+        /// <param name="octaves">How many layers of detail is added to the noise. Must be greater than 0. Recommended value: 4.</param>
+        /// <param name="scale">How "zoomed in" the noise is. The larger the smoother. Must be greater than 0. Recommended value: 20.</param>
+        /// <param name="persistence">How much the amplitude changes between octaves. The smaller the smoother. Recommended range: [0f, 1f], Recommended value: 0.5f.</param>
+        /// <param name="lacunarity">How much the frequency changes between octaves. The smaller the smoother. Recommended range: [1f, 16f], Recommended value: 2f.</param>
+        /// <param name="offset">Manual offset for the noise.</param>
+        /// <returns>2D array of noise values.</returns>
         public static float[,] GenerateHeightmap(int width, int height, int seed, int octaves, float scale, float persistence, float lacunarity, Vector2 offset)
         {
             if(octaves <= 0)
@@ -106,14 +109,15 @@ namespace PerlinNoise
             return heightmap;
         }
 
-        /**Generates a 2D array of noise values vith given settings object
-         * args:
-         *  int width: X size of the array
-         *  int height: Y size of the array
-         *  int seed: Seed for RNG
-         *  Settings settings: The noise settings
-         *  Vector2 offset: Manual offset
-         */
+        /// <summary>
+        /// Generate a 2D array of Perlin noise values.
+        /// </summary>
+        /// <param name="width">X-size of the array.</param>
+        /// <param name="height">Y-size of the array.</param>
+        /// <param name="seed">Seed for RNG</param>
+        /// <param name="settings">Settings for the noise.</param>
+        /// <param name="offset">Manual offset for the noise.</param>
+        /// <returns>2D array of noise values.</returns>
         public static float[,] GenerateHeightmap(int width, int height, int seed, Settings settings, Vector2 offset)
         {
             return GenerateHeightmap(width, height, seed, settings.octaves, settings.scale, settings.persistence, settings.lacunarity, offset);
