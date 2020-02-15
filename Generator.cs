@@ -23,7 +23,7 @@ namespace PerlinNoise
         /// <returns>2D array of noise values.</returns>
         public static float[,] GenerateHeightmap(int width, int height, int seed, int octaves, float scale, float persistence, float lacunarity, Vector2 offset)
         {
-            if(octaves <= 0)
+            if (octaves <= 0)
             {
                 Debug.LogError("PerlinNoise.Generator.GenerateHeightmap: Must have more than 0 octaves!");
                 return null;
@@ -42,26 +42,30 @@ namespace PerlinNoise
             //Random offsets for each octave
             Vector2[] octaveOffsets = new Vector2[octaves];
 
-            for(int i = 0; i < octaves; i++)
+            //Keep track of the lowest and highest values
+            float minHeight = 0;
+            float maxHeight = 0;
+
+            for (int i = 0; i < octaves; i++)
             {
                 //Offset the coordinates by a random value
                 float offsetX = prng.Next(-100000, 100000) + offset.x;
                 float offsetY = prng.Next(-100000, 100000) + offset.y;
                 octaveOffsets[i] = new Vector2(offsetX, offsetY);
+
+                float maxValue = Mathf.Pow(persistence, i);
+                minHeight -= maxValue;
+                maxHeight += maxValue;
             }
 
             //Zoom to the center when changing width and height
             float halfWidth = width / 2f;
             float halfHeight = height / 2f;
 
-            //Keep track of the lowest and highest values
-            float minHeight = float.MaxValue;
-            float maxHeight = float.MinValue;
-
             //Loop through our heightmap and generate noise values for each element
             for (int x = 0; x < width; x++)
             {
-                for(int y = 0; y < height; y++)
+                for (int y = 0; y < height; y++)
                 {
                     //The strength of the layer -- the larger amplitude, the more it will affect the height value
                     float amplitude = 1f;
@@ -71,7 +75,7 @@ namespace PerlinNoise
                     float heightValue = 0f;
 
                     //Generate noise layers with differing scales and strengths to add more/less detail
-                    for(int i = 0; i < octaves; i++)
+                    for (int i = 0; i < octaves; i++)
                     {
                         //Sample coordinates
                         float sampleX = (x + halfWidth + octaveOffsets[i].x) / scale * frequency;
@@ -89,18 +93,13 @@ namespace PerlinNoise
                     }
 
                     heightmap[x, y] = heightValue;
-
-                    if (heightValue < minHeight)
-                        minHeight = heightValue;
-                    if (heightValue > maxHeight)
-                        maxHeight = heightValue;
                 }
             }
 
             //Normalize values between 0 and 1
-            for(int x = 0; x < width; x++)
+            for (int x = 0; x < width; x++)
             {
-                for(int y = 0; y < height; y++)
+                for (int y = 0; y < height; y++)
                 {
                     heightmap[x, y] = (heightmap[x, y] - minHeight) / (maxHeight - minHeight);
                 }
