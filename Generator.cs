@@ -42,9 +42,9 @@ namespace PerlinNoise
             //Random offsets for each octave
             Vector2[] octaveOffsets = new Vector2[octaves];
 
-            //Keep track of the lowest and highest values
-            float minHeight = 0;
-            float maxHeight = 0;
+            float amplitude = 1f;
+            float frequency = 1f;
+            float maxPossibleHeight = 0;
 
             for (int i = 0; i < octaves; i++)
             {
@@ -53,9 +53,8 @@ namespace PerlinNoise
                 float offsetY = prng.Next(-100000, 100000) + offset.y;
                 octaveOffsets[i] = new Vector2(offsetX, offsetY);
 
-                float maxValue = Mathf.Pow(persistence, i);
-                minHeight -= maxValue;
-                maxHeight += maxValue;
+                maxPossibleHeight += amplitude;
+                amplitude *= persistence;
             }
 
             //Zoom to the center when changing width and height
@@ -68,9 +67,9 @@ namespace PerlinNoise
                 for (int y = 0; y < height; y++)
                 {
                     //The strength of the layer -- the larger amplitude, the more it will affect the height value
-                    float amplitude = 1f;
+                    amplitude = 1f;
                     //The scale of the layer -- the larger frequency, the grainier the noise
-                    float frequency = 1f;
+                    frequency = 1f;
                     //The height at these coordinates
                     float heightValue = 0f;
 
@@ -101,7 +100,8 @@ namespace PerlinNoise
             {
                 for (int y = 0; y < height; y++)
                 {
-                    heightmap[x, y] = (heightmap[x, y] - minHeight) / (maxHeight - minHeight);
+                    float heightValue = (heightmap[x, y] + 1) / (maxPossibleHeight / 0.9f);
+                    heightmap[x, y] = heightValue;
                 }
             }
 
