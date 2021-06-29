@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PerlinNoise
+namespace Tanttinator.PerlinNoise
 {
     /// <summary>
     /// Object to store settings for Perlin noise.
     /// </summary>
     [CreateAssetMenu(menuName = "Perlin Noise/Settings")]
-    public class Settings : ScriptableObject
+    public class NoiseSettings : ScriptableObject
     {
         public int octaves = 4;
         public float scale = 20f;

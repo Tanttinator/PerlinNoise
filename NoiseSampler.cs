@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace PerlinNoise
+namespace Tanttinator.PerlinNoise
 {
     public class NoiseSampler
     {
-        Settings settings;
+        NoiseSettings settings;
         System.Random random;
         Vector2[] octaveOffsets;
         float maxPossibleHeight;
 
-        public NoiseSampler(Settings settings, int seed)
+        public NoiseSampler(NoiseSettings settings, int seed)
         {
             this.settings = settings;
             random = new System.Random(seed);

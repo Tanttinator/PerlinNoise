@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace PerlinNoise
+namespace Tanttinator.PerlinNoise
 {
     /// <summary>
     /// Helper class for Perlin noise generation.
@@ -117,7 +117,7 @@ namespace PerlinNoise
         /// <param name="settings">Settings for the noise.</param>
         /// <param name="offset">Manual offset for the noise.</param>
         /// <returns>2D array of noise values.</returns>
-        public static float[,] GenerateHeightmap(int width, int height, int seed, Settings settings, Vector2 offset)
+        public static float[,] GenerateHeightmap(int width, int height, int seed, NoiseSettings settings, Vector2 offset)
         {
             return GenerateHeightmap(width, height, seed, settings.octaves, settings.scale, settings.persistence, settings.lacunarity, offset);
         }
